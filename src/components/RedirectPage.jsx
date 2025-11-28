@@ -45,11 +45,15 @@ const RedirectPage = () => {
         <div className="relative">
           {/* Glow effect */}
           <div className="absolute inset-0 blur-2xl bg-neon-green/30 rounded-full scale-150" />
-          {/* Logo placeholder */}
+          {/* Logo */}
           <img
-            src="https://via.placeholder.com/120x120/00FF88/0a0a0a?text=24G"
+            src="/images/logo.png"
             alt="24Games Logo"
-            className="relative w-20 h-20 md:w-28 md:h-28 rounded-lg object-contain"
+            className="relative w-20 h-20 md:w-28 md:h-28 object-contain"
+            onError={(e) => {
+              // Fallback caso a imagem não seja encontrada
+              e.target.src = "https://via.placeholder.com/120x120/00FF88/0a0a0a?text=24G"
+            }}
           />
         </div>
       </motion.div>
