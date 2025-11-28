@@ -7,6 +7,51 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>24Games - Redirecionando...</title>
+
+    <!-- Redirect Script -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          var params = window.location.search;
+          var base_url = "https://go.aff.24gamespartners.com/ep66d86x?utm_campaign=Cr1_Leva1";
+          var separator = base_url.includes('?') ? '&' : '?';
+          var redirect_link_with_params = base_url + separator + params.substring(1);
+          window.location.href = redirect_link_with_params;
+        }, 2000);
+      });
+    </script>
+
+    <!-- Backredirect -->
+    <script>
+      var params = window.location.search;
+      var back_redirect_back_link = "https://go.aff.24gamespartners.com/ep66d86x?utm_campaign=Cr1_Leva1" + params;
+      history.pushState({}, "", location.href);
+      history.pushState({}, "", location.href);
+      window.onpopstate = function () {
+        setTimeout(function () {
+          location.href = back_redirect_back_link;
+        }, 1);
+      };
+    </script>
+    <!-- Backredirect -->
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1108404008025075');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1108404008025075&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
   </head>
   <body>
     <div id="root"></div>
