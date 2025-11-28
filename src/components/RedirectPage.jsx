@@ -82,12 +82,12 @@ const RedirectPage = () => {
           <div className="space-y-4">
             {/* Título */}
             <h1 className="text-white text-xl md:text-2xl font-semibold text-center">
-              Conectando ao servidor...
+              Conectando al servidor...
             </h1>
             
             {/* Subtítulo */}
             <p className="text-gray-400 text-sm md:text-base text-center">
-              Você está sendo redirecionado para o ambiente seguro.
+              Estás siendo redirigido al entorno seguro.
             </p>
             
             {/* Barra de Progresso */}
@@ -114,7 +114,7 @@ const RedirectPage = () => {
       >
         <div className="flex items-center gap-2 text-gray-500 text-xs md:text-sm">
           <Shield className="w-4 h-4" />
-          <span>Conexão Segura 24Games</span>
+          <span>Conexión Segura 24Games</span>
         </div>
       </motion.div>
     </div>
