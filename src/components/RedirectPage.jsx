@@ -51,19 +51,39 @@ const RedirectPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-center mb-8 md:mb-12"
+          className="text-center mb-8 md:mb-12 px-4"
         >
           <h1 
-            className="text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight px-4"
+            className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-tight"
             style={{
-              background: 'linear-gradient(to right, #ffffff, #00FF88)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              fontFamily: 'system-ui, -apple-system, sans-serif',
+              fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+              letterSpacing: '-0.02em',
+              fontWeight: 800,
             }}
           >
-            Espera para liberar tus giros gratis...
+            <span className="text-white">Espera para liberar tus </span>
+            <motion.span 
+              className="inline-block relative"
+              style={{
+                background: 'linear-gradient(90deg, #ffffff 0%, #ffffff 20%, #00FF88 40%, #00FF88 60%, #ffffff 80%, #ffffff 100%)',
+                backgroundSize: '300% 100%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: 'drop-shadow(0 0 8px rgba(0, 255, 136, 0.5))',
+              }}
+              animate={{
+                backgroundPosition: ['0% 50%', '300% 50%'],
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            >
+              giros gratis
+            </motion.span>
+            <span className="text-white">...</span>
           </h1>
         </motion.div>
 
