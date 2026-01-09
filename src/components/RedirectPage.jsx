@@ -3,10 +3,11 @@ import BaseRedirectPage from './BaseRedirectPage'
 const RedirectPage = () => {
   return (
     <BaseRedirectPage
-      title="Espera para liberar tus "
-      highlightedText="giros gratis"
-      imagePath="/images/imagem-central.png"
-      imageAlt="Imagem Central"
+      title="Estás activando tu "
+      highlightedText="bono del 300%"
+      imagePath="/images/300-bonos.webp"
+      imageAlt="Bono 300%"
+      logoPath="/images/logo-bet7k.svg"
     />
   )
 }

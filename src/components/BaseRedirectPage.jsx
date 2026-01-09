@@ -5,6 +5,7 @@ const BaseRedirectPage = ({
   highlightedText, 
   imagePath = "/images/imagem-central.png",
   imageAlt = "Imagem Central",
+  logoPath = "/images/logo.png",
   simpleImage = false // Para imagens PNG sem fundo (sem efeitos visuais)
 }) => {
   return (
@@ -26,11 +27,11 @@ const BaseRedirectPage = ({
           className="mb-12 md:mb-16"
         >
           <img
-            src="/images/logo.png"
-            alt="24Games Logo"
+            src={logoPath}
+            alt="Bet7K Logo"
             className="w-32 md:w-40 h-auto object-contain"
             onError={(e) => {
-              e.target.src = "https://via.placeholder.com/160x160/00FF88/0a0a0a?text=24G"
+              e.target.src = "https://via.placeholder.com/160x160/00FF88/0a0a0a?text=7K"
             }}
           />
         </motion.div>
