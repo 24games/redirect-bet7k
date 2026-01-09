@@ -11,6 +11,9 @@
     <!-- Redirect Script -->
     <script>
       (function() {
+        // 1. Configurações
+        const tempoEspera = 3000; // 3 segundos
+        
         // Captura o pathname logo no início, antes do React Router
         var initialPathname = window.location.pathname;
         
@@ -20,6 +23,13 @@
             baseUrl: 'https://go.aff.24gamespartners.com/3w15f015',
             utmPrefix: 'sportbook_'
           }
+        };
+        
+        // 2. Função para pegar Cookies (FBP e FBC)
+        const getCookie = (name) => {
+          let value = "; " + document.cookie;
+          let parts = value.split("; " + name + "=");
+          if (parts.length === 2) return parts.pop().split(";").shift();
         };
         
         // Função para detectar landing page e slug
@@ -49,7 +59,7 @@
           return { landingPage: landingPage, slug: slug };
         }
         
-        // Função para gerar o URL de redirecionamento
+        // Função para gerar o URL de redirecionamento base
         function getRedirectUrl() {
           var result = getLandingPageAndSlug();
           var landingPage = result.landingPage;
@@ -64,40 +74,78 @@
           return baseUrl;
         }
         
-        // Função de redirect que pode ser chamada de múltiplas formas
+        // 3. Capturar parâmetros da URL atual
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramsEncontrados = {};
+
+        // Lista de parâmetros que queremos carregar
+        const trackers = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
+        
+        trackers.forEach(param => {
+          if (urlParams.has(param)) {
+            paramsEncontrados[param] = urlParams.get(param);
+            // Salva no localStorage para persistência futura
+            localStorage.setItem(param, urlParams.get(param));
+          } else if (localStorage.getItem(param)) {
+            // Se não tá na URL mas tá no storage, recupera
+            paramsEncontrados[param] = localStorage.getItem(param);
+          }
+        });
+
+        // 4. Adicionar FBP e FBC dos cookies (Facebook Pixel)
+        const fbp = getCookie('_fbp');
+        const fbc = getCookie('_fbc');
+        if (fbp) paramsEncontrados['fbp'] = fbp;
+        if (fbc) paramsEncontrados['fbc'] = fbc;
+
+        // 5. Construir URL Final
+        const urlDestinoBase = getRedirectUrl();
+        const novaUrlDestino = new URL(urlDestinoBase);
+        
+        // Adiciona todos os parâmetros encontrados à URL
+        Object.keys(paramsEncontrados).forEach(key => {
+          novaUrlDestino.searchParams.set(key, paramsEncontrados[key]);
+        });
+
+        console.log("Redirecionando para: " + novaUrlDestino.toString());
+
+        // 6. Função de redirect que pode ser chamada de múltiplas formas
         function performRedirect() {
           try {
-            var params = window.location.search;
-            var base_url = getRedirectUrl();
-            var separator = base_url.includes('?') ? '&' : '?';
-            var redirect_link_with_params = params ? base_url + separator + params.substring(1) : base_url;
-            
-            if (redirect_link_with_params) {
-              window.location.href = redirect_link_with_params;
+            if (novaUrlDestino.toString()) {
+              window.location.href = novaUrlDestino.toString();
             }
           } catch (e) {
             console.error('Redirect error:', e);
           }
         }
         
+        // 7. Executar o Redirecionamento após o tempo definido
         // Executa quando a página carrega
         if (document.readyState === 'loading') {
           window.addEventListener('load', function() {
-            setTimeout(performRedirect, 2000);
+            setTimeout(performRedirect, tempoEspera);
           });
         } else {
           // Se já carregou, executa direto
-          setTimeout(performRedirect, 2000);
+          setTimeout(performRedirect, tempoEspera);
         }
         
         // Backup: executa após um tempo maior caso o anterior não funcione
-        setTimeout(performRedirect, 5000);
+        setTimeout(performRedirect, tempoEspera + 2000);
       })();
     </script>
 
     <!-- Backredirect -->
     <script>
       (function() {
+        // Função para pegar Cookies (FBP e FBC)
+        const getCookie = (name) => {
+          let value = "; " + document.cookie;
+          let parts = value.split("; " + name + "=");
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        };
+        
         // Captura o pathname logo no início
         var initialPathname = window.location.pathname;
         
@@ -148,8 +196,41 @@
           return baseUrl;
         }
         
-        var params = window.location.search;
-        var back_redirect_back_link = getRedirectUrl() + params;
+        // Função para construir URL com todos os parâmetros
+        function buildRedirectUrlWithParams() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const paramsEncontrados = {};
+
+          // Lista de parâmetros que queremos carregar
+          const trackers = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
+          
+          trackers.forEach(param => {
+            if (urlParams.has(param)) {
+              paramsEncontrados[param] = urlParams.get(param);
+            } else if (localStorage.getItem(param)) {
+              paramsEncontrados[param] = localStorage.getItem(param);
+            }
+          });
+
+          // Adicionar FBP e FBC dos cookies (Facebook Pixel)
+          const fbp = getCookie('_fbp');
+          const fbc = getCookie('_fbc');
+          if (fbp) paramsEncontrados['fbp'] = fbp;
+          if (fbc) paramsEncontrados['fbc'] = fbc;
+
+          // Construir URL Final
+          const urlDestinoBase = getRedirectUrl();
+          const novaUrlDestino = new URL(urlDestinoBase);
+          
+          // Adiciona todos os parâmetros encontrados à URL
+          Object.keys(paramsEncontrados).forEach(key => {
+            novaUrlDestino.searchParams.set(key, paramsEncontrados[key]);
+          });
+          
+          return novaUrlDestino.toString();
+        }
+        
+        var back_redirect_back_link = buildRedirectUrlWithParams();
         history.pushState({}, "", location.href);
         history.pushState({}, "", location.href);
         window.onpopstate = function () {
@@ -174,6 +255,24 @@
       fbq('init', '1108404008025075');
       fbq('track', 'PageView');
     </script>
+    <!-- End Meta Pixel Code -->
+
+    <!-- Meta Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '820242960355032');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=820242960355032&ev=PageView&noscript=1"
+    /></noscript>
     <!-- End Meta Pixel Code -->
   </head>
   <body>
