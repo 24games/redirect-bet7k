@@ -79,8 +79,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         const paramsEncontrados = {};
 
-        // Lista de parâmetros que queremos carregar
-        const trackers = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
+        // Lista de parâmetros que queremos carregar (utm_campaign NÃO está aqui para não sobrescrever o da URL base)
+        const trackers = ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
         
         trackers.forEach(param => {
           if (urlParams.has(param)) {
@@ -104,6 +104,7 @@
         const novaUrlDestino = new URL(urlDestinoBase);
         
         // Adiciona todos os parâmetros encontrados à URL
+        // IMPORTANTE: utm_campaign da URL base NÃO será sobrescrito pois não está na lista de trackers
         Object.keys(paramsEncontrados).forEach(key => {
           novaUrlDestino.searchParams.set(key, paramsEncontrados[key]);
         });
@@ -203,8 +204,8 @@
           const urlParams = new URLSearchParams(window.location.search);
           const paramsEncontrados = {};
 
-          // Lista de parâmetros que queremos carregar
-          const trackers = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
+          // Lista de parâmetros que queremos carregar (utm_campaign NÃO está aqui para não sobrescrever o da URL base)
+          const trackers = ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
           
           trackers.forEach(param => {
             if (urlParams.has(param)) {
@@ -225,6 +226,7 @@
           const novaUrlDestino = new URL(urlDestinoBase);
           
           // Adiciona todos os parâmetros encontrados à URL
+          // IMPORTANTE: utm_campaign da URL base NÃO será sobrescrito pois não está na lista de trackers
           Object.keys(paramsEncontrados).forEach(key => {
             novaUrlDestino.searchParams.set(key, paramsEncontrados[key]);
           });
