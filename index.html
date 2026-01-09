@@ -66,12 +66,12 @@
           var slug = result.slug;
           
           var config = landingPages[landingPage] || {
-            baseUrl: 'https://go.aff.business/i44jd0jc?utm_campaign=Cr2_A3_Culinária',
+            baseUrl: 'https://go.aff.business/i44jd0jc',
             utmPrefix: 'casino_'
           };
           
-          // Usa a URL base do config (já inclui utm_campaign)
-          var baseUrl = config.baseUrl;
+          // Constrói a URL base e adiciona utm_campaign dinamicamente baseado no slug
+          var baseUrl = config.baseUrl + '?utm_campaign=' + slug;
           return baseUrl;
         }
         
@@ -79,7 +79,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const paramsEncontrados = {};
 
-        // Lista de parâmetros que queremos carregar (utm_campaign NÃO está aqui para não sobrescrever o da URL base)
+        // Lista de parâmetros que queremos carregar (utm_campaign NÃO está aqui pois é gerado dinamicamente do slug)
         const trackers = ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
         
         trackers.forEach(param => {
@@ -104,7 +104,7 @@
         const novaUrlDestino = new URL(urlDestinoBase);
         
         // Adiciona todos os parâmetros encontrados à URL
-        // IMPORTANTE: utm_campaign da URL base NÃO será sobrescrito pois não está na lista de trackers
+        // IMPORTANTE: utm_campaign é gerado dinamicamente do slug e não será sobrescrito
         Object.keys(paramsEncontrados).forEach(key => {
           novaUrlDestino.searchParams.set(key, paramsEncontrados[key]);
         });
@@ -190,12 +190,12 @@
           var slug = result.slug;
           
           var config = landingPages[landingPage] || {
-            baseUrl: 'https://go.aff.business/i44jd0jc?utm_campaign=Cr2_A3_Culinária',
+            baseUrl: 'https://go.aff.business/i44jd0jc',
             utmPrefix: 'casino_'
           };
           
-          // Usa a URL base do config (já inclui utm_campaign)
-          var baseUrl = config.baseUrl;
+          // Constrói a URL base e adiciona utm_campaign dinamicamente baseado no slug
+          var baseUrl = config.baseUrl + '?utm_campaign=' + slug;
           return baseUrl;
         }
         
@@ -204,7 +204,7 @@
           const urlParams = new URLSearchParams(window.location.search);
           const paramsEncontrados = {};
 
-          // Lista de parâmetros que queremos carregar (utm_campaign NÃO está aqui para não sobrescrever o da URL base)
+          // Lista de parâmetros que queremos carregar (utm_campaign NÃO está aqui pois é gerado dinamicamente do slug)
           const trackers = ['utm_source', 'utm_medium', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
           
           trackers.forEach(param => {
@@ -226,7 +226,7 @@
           const novaUrlDestino = new URL(urlDestinoBase);
           
           // Adiciona todos os parâmetros encontrados à URL
-          // IMPORTANTE: utm_campaign da URL base NÃO será sobrescrito pois não está na lista de trackers
+          // IMPORTANTE: utm_campaign é gerado dinamicamente do slug e não será sobrescrito
           Object.keys(paramsEncontrados).forEach(key => {
             novaUrlDestino.searchParams.set(key, paramsEncontrados[key]);
           });
